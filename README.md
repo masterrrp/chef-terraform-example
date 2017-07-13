@@ -1,6 +1,6 @@
 # chef-terraform-example
 
-Rudimentary wrapper script for Terraform rolling updates, functioning ASG's, Chef Kitchen testing, Chef Server cookbook version and version management AMI's.
+Rudimentary wrapper script to achieve simple CI/CD pipeline demo. Built with Packer AMI builds, Terraform rolling updates, functioning ASG's, Chef Kitchen testing, Chef Server cookbook version and version management AMI's.
 
 ## Getting Started
 
@@ -69,9 +69,13 @@ Use this to clean up all the Terraform resources after you are done with the dem
 ./chef-terraform-example.sh -o destroy
 ```
 
+### TODO
+- [ ] Maybe pull over some more knife spork (e.g. promote)
+- [ ] Move a lot of functionality over to Makefile
+- [ ] Error handling on failed Packer, Terraform builds
+- [ ] Clean up wrapper
+- [ ] Expand the docs
+- [ ] Acknowledgments
+
 ### Acknowledgments
-
-This post here: https://robmorgan.id.au/posts/rolling-deploys-on-aws-using-terraform/ which is based on a concept from Paul Hinze:
-https://groups.google.com/forum/#!msg/terraform-tool/7Gdhv1OAc80/iNQ93riiLwAJ
-
-This post here: https://semaphoreci.com/community/tutorials/unit-tests-for-chef-cookbooks-with-chefspec
+...WIP
