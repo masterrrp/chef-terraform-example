@@ -1,0 +1,84 @@
+{
+  "variables": {
+    "ssh_username": "ubuntu",
+    "github_token": "{{env `GITHUB_TOKEN`}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_access_key` }}",
+      "region": "us-west-2",
+      "source_ami": "ami-5b4c5d22",
+      "instance_type": "c4.large",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ami_name": "webserver-{{timestamp}}",
+      "associate_public_ip_address": true,
+      "tags": {
+        "Chef_Cookbook": "webserver",
+        "Chef_Environment": "{{user `chef_environment`}}",
+        "Chef_Cookbook_Version": "{{user `chef_cookbook_version`}}",
+        "Chef_Run_List": "{{user `chef_run_list`}}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+      "inline": [
+        "mkdir -p /ops",
+        "chmod a+w /ops"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "ssh_keys",
+      "destination": "/ops"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+      "inline": [
+        "cat /ops/ssh_keys/*.pub >> /home/ubuntu/.ssh/authorized_keys"
+      ]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "packer/scripts/base.sh"
+      ],
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E '{{ .Path }}'"
+    },
+    {
+      "type": "chef-client",
+      "server_url": "{{user `chef_server_url`}}",
+      "validation_client_name": "{{user `chef_client_name`}}",
+      "validation_key_path": "{{user `chef_key_path`}}",
+      "run_list": "{{user `chef_run_list`}}",
+      "chef_environment": "{{user `chef_environment`}}"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+      "inline": [
+        "updatedb",
+        "locate default_spec.rb"
+      ]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "packer/scripts/cleanup.sh"
+      ],
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E '{{ .Path }}'"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "manifest.json",
+      "strip_path": true
+    }
+  ]
+}

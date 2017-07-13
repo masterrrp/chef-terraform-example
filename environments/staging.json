@@ -1,0 +1,13 @@
+{
+  "name": "staging",
+  "description": "This is the staging environment.",
+  "cookbook_versions": {
+    "webserver": "= 0.1.2"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  }
+}

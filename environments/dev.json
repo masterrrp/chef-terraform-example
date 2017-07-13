@@ -1,0 +1,12 @@
+{
+    "name": "dev",
+    "description": "This is the Dev.  The latest and greatest versions.",
+    "cookbook_versions": {
+    },
+    "json_class": "Chef::Environment",
+    "chef_type": "environment",
+    "default_attributes": {
+    },
+    "override_attributes": {
+    }
+}
