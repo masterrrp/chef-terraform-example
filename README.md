@@ -1,6 +1,6 @@
 # chef-terraform-example
 
-Rudimentary wrapper script to achieve simple CI/CD pipeline demo. Built with Packer AMI builds, Terraform rolling updates, functioning ASG's, Chef Kitchen testing, Chef Server cookbook version and version management AMI's.
+Rudimentary wrapper script to achieve simple CI/CD pipeline demo. Built with Packer AMI builds, Terraform rolling updates, functioning ASG's, Chef Kitchen testing, Chef Server cookbook and AMI's version management.
 
 ## Getting Started
 
